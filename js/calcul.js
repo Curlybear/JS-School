@@ -27,14 +27,6 @@ var drawWidth;
 var topY;
 var padding;
 
-/**
- * Animation stuff
- */
-var step = 0;
-var steps = 60;
-var rotation = 6 * Math.PI;
-var animating = false;
-
 document.addEventListener('DOMContentLoaded', function() {
     // Check anwsers and draw soldiers accordingly
 
@@ -67,39 +59,6 @@ function drawSoldiers() {
     for(var i = 0; i < remainingComputer; ++i) {
         ctx.drawImage(soldier, i * soldier.width/2.5 + padding, topY, soldier.width/2.5, soldier.height/2.5);
     }
-    ctx.restore();
-}
-
-function animation() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    drawSoldiers(remaining);
-
-    if(++step < steps) {
-        drawSpinning(remaining, step);
-        requestAnimationFrame(animation);
-        return;
-    }
-    animating = false;
-}
-
-function drawSpinning(position, step) {
-    var x = position * drawWidth + padding + soldier.width / 2;
-    var y = topY + soldier.height / 2;
-    var scale = (steps - step) / steps;
-
-    x += step * 4;
-    y -= step * 2.5;
-
-    ctx.save();
-    ctx.translate(x, y);
-    ctx.rotate(rotation / steps * step);
-    ctx.scale(scale, scale);
-    ctx.drawImage(
-        soldier,
-        -soldier.width / 2,
-        -soldier.height / 2
-    );
     ctx.restore();
 }
 
@@ -169,6 +128,7 @@ function killComputer() {
         remainingComputer--;
         drawSoldiers();
         alert('Game over you won.');
+        lockGame();
     }
 }
 
@@ -179,6 +139,7 @@ function killPlayer() {
         remainingPlayer--;
         drawSoldiers();
         alert('Game over you lost.');
+        lockGame();
     }
 }
 
@@ -192,6 +153,8 @@ function refreshLevel(){
 }
 
 function lockGame(){
+    remainingPlayer = count;
+    remainingComputer = count;
     $('#jeu').hide();
     $('#niveau').show();
     $('#prevNiv').prop('disabled', false);
