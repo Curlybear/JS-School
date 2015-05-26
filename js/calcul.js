@@ -57,14 +57,17 @@ function drawIfLoaded() {
 }
 
 function drawSoldiers() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     for(var i = 0; i < remainingPlayer; ++i) {
         ctx.drawImage(soldier, i * soldier.width/2.5 + padding, topY, soldier.width/2.5, soldier.height/2.5);
     }
     ctx.save();
-    ctx.scale(-1, 0);
+    ctx.translate(canvas.width, canvas.height-200);
+    ctx.scale(-1, 1);
     for(var i = 0; i < remainingComputer; ++i) {
         ctx.drawImage(soldier, i * soldier.width/2.5 + padding, topY, soldier.width/2.5, soldier.height/2.5);
     }
+    ctx.restore();
 }
 
 function animation() {
@@ -153,17 +156,30 @@ function initEventHandler() {
         } else {
             killPlayer();
         }
+        drawSoldiers();
         newCalcul();
         $('#fieldAnwser').val(' ');
     });
 }
 
 function killComputer() {
-    alert('Good');
+    if (remainingComputer > 1) {
+        remainingComputer--;
+    } else {
+        remainingComputer--;
+        drawSoldiers();
+        alert('Game over you won.');
+    }
 }
 
 function killPlayer() {
-    alert('Bad');
+    if (remainingPlayer > 1) {
+        remainingPlayer--;
+    } else {
+        remainingPlayer--;
+        drawSoldiers();
+        alert('Game over you lost.');
+    }
 }
 
 function newCalcul(){
