@@ -131,6 +131,7 @@ window.addEventListener('load',initEventHandler,false);
 // Initialisation des handlers d'evenements
 function initEventHandler() {
     refreshLevel();
+    lockGame();
 
     $('#prevNiv').click( function(e) {
         if (currentLevel > 1) {
@@ -145,10 +146,31 @@ function initEventHandler() {
             refreshLevel();
         }
     });
+
+    $('#btnStart').click( function(e) {
+        unlockGame();
+    });
 }
 
 function refreshLevel(){
     $('#textNiveau').html(levels[currentLevel-1]);
+}
+
+function lockGame(){
+    $('#prevNiv').prop('disabled', false);
+    $('#nextNiv').prop('disabled', false);
+    $('#btnStart').prop('disabled', false);
+    $('#fieldAnwser').prop('disabled', true);
+    $('#displayCalcul').html("--------");
+}
+
+function unlockGame(){
+    $('#prevNiv').prop('disabled', true);
+    $('#nextNiv').prop('disabled', true);
+    $('#btnStart').prop('disabled', true);
+    $('#fieldAnwser').prop('disabled', false);
+    currentCalcul = getCalcul(currentLevel);
+    $('#displayCalcul').html(currentCalcul.operande1 + " " + currentCalcul.operateur + " " + currentCalcul.operande2 + "=");
 }
 
 function getCalcul(niveau) {
