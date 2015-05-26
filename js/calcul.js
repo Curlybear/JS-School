@@ -192,6 +192,8 @@ function refreshLevel(){
 }
 
 function lockGame(){
+    $('#jeu').hide();
+    $('#niveau').show();
     $('#prevNiv').prop('disabled', false);
     $('#nextNiv').prop('disabled', false);
     $('#btnStart').prop('disabled', false);
@@ -200,6 +202,8 @@ function lockGame(){
 }
 
 function unlockGame(){
+    $('#jeu').show();
+    $('#niveau').hide();
     $('#prevNiv').prop('disabled', true);
     $('#nextNiv').prop('disabled', true);
     $('#btnStart').prop('disabled', true);
