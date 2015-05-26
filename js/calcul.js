@@ -1,111 +1,105 @@
-//var count = 5;
-//var remainingPlayer = count;
-//var remainingComputer = count;
-//
-///**
-// * Loading process
-// */
-//var imgLoaded = false;
-//var htmlLoaded = false;
-//
-///**
-// * Elements
-// */
-//var canvas;
-//var ctx;
-//var soldier = new Image;
-//soldier.src = "soldier.svg";
-//soldier.onload = function() {
-//    imgLoaded = true;
-//    drawIfLoaded();
-//};
-//
-///**
-// * Drawing dimensions
-// */
-//var drawWidth;
-//var topY;
-//var padding;
-//
-///**
-// * Animation stuff
-// */
-//var step = 0;
-//var steps = 60;
-//var rotation = 6 * Math.PI;
-//var animating = false;
-//
-//document.addEventListener('DOMContentLoaded', function() {
-//    // Check anwsers and draw soldiers accordingly
-//
-//    document.getElementById('button').addEventListener('click', function(e) {
-//        if(remaining <= 0) {
-//            return;
-//        }
-//        animating = true;
-//        step = 0;
-//        --remaining;
-//        animation();
-//    });
-//
-//    canvas = document.getElementById('canvas');
-//    canvas.width = canvas.clientWidth;
-//    canvas.height = canvas.clientHeight;
-//    ctx = canvas.getContext('2d');
-//
-//    htmlLoaded = true;
-//    drawIfLoaded();
-//});
-//
-//function drawIfLoaded() {
-//    if(!imgLoaded || !htmlLoaded) {
-//        return;
-//    }
-//    padding = Math.max(0, (canvas.width/2 - 20 - soldier.width * count) / 2);
-//    drawWidth = Math.max(soldier.width, (canvas.width - padding * 2) / count);
-//    topY = (canvas.height - soldier.height) / 2;
-//    drawSoldiers(count);
-//}
-//// If this comment is still here, the person using that code didn't even read it!
-//
-//function drawSoldiers(count) {
-//    for(var i = 0; i < count; ++i) {
-//        ctx.drawImage(soldier, i * drawWidth + padding, topY);
-//    }
-//}
-//
-//function animation() {
-//    ctx.clearRect(0, 0, canvas.width, canvas.height);
-//
-//    drawSoldiers(remaining);
-//
-//    if(++step < steps) {
-//        drawSpinning(remaining, step);
-//        requestAnimationFrame(animation);
-//        return;
-//    }
-//    animating = false;
-//}
-//
-//function drawSpinning(position, step) {
-//    var x = position * drawWidth + padding + soldier.width / 2;
-//    var y = topY + soldier.height / 2;
-//    var scale = (steps - step) / steps;
-//
-//    x += step * 4;
-//    y -= step * 2.5;
-//
-//    ctx.save();
-//    ctx.translate(x, y);
-//    ctx.rotate(rotation / steps * step);
-//    ctx.scale(scale, scale);
-//    ctx.drawImage(
-//        soldier,
-//        -soldier.width / 2,
-//        -soldier.height / 2
-//    );
-//    ctx.restore();
-//}
+var count = 5;
+var remainingPlayer = count;
+var remainingComputer = count;
+
+/**
+ * Loading process
+ */
+var imgLoaded = false;
+var htmlLoaded = false;
+
+/**
+ * Elements
+ */
+var canvas;
+var ctx;
+var soldier = new Image;
+soldier.src = "img/soldier.svg";
+soldier.onload = function() {
+    imgLoaded = true;
+    drawIfLoaded();
+};
+
+/**
+ * Drawing dimensions
+ */
+var drawWidth;
+var topY;
+var padding;
+
+/**
+ * Animation stuff
+ */
+var step = 0;
+var steps = 60;
+var rotation = 6 * Math.PI;
+var animating = false;
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Check anwsers and draw soldiers accordingly
+
+    canvas = document.getElementById('canvas');
+    canvas.width = canvas.clientWidth;
+    canvas.height = canvas.clientHeight;
+    ctx = canvas.getContext('2d');
+
+    htmlLoaded = true;
+    drawIfLoaded();
+});
+
+function drawIfLoaded() {
+    if(!imgLoaded || !htmlLoaded) {
+        return;
+    }
+    padding = 10;
+    topY = (canvas.height - soldier.height) / 2;
+    drawSoldiers();
+}
+
+function drawSoldiers() {
+    for(var i = 0; i < remainingPlayer; ++i) {
+        ctx.drawImage(soldier, i * soldier.width/2.5 + padding, topY, soldier.width/2.5, soldier.height/2.5);
+    }
+    ctx.save();
+    ctx.scale(-1, 0);
+    for(var i = 0; i < remainingComputer; ++i) {
+        ctx.drawImage(soldier, i * soldier.width/2.5 + padding, topY, soldier.width/2.5, soldier.height/2.5);
+    }
+}
+
+function animation() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    drawSoldiers(remaining);
+
+    if(++step < steps) {
+        drawSpinning(remaining, step);
+        requestAnimationFrame(animation);
+        return;
+    }
+    animating = false;
+}
+
+function drawSpinning(position, step) {
+    var x = position * drawWidth + padding + soldier.width / 2;
+    var y = topY + soldier.height / 2;
+    var scale = (steps - step) / steps;
+
+    x += step * 4;
+    y -= step * 2.5;
+
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(rotation / steps * step);
+    ctx.scale(scale, scale);
+    ctx.drawImage(
+        soldier,
+        -soldier.width / 2,
+        -soldier.height / 2
+    );
+    ctx.restore();
+}
+
 var currentCalcul;
 var currentLevel = 1;
 
