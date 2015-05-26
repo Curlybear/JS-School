@@ -150,6 +150,31 @@ function initEventHandler() {
     $('#btnStart').click( function(e) {
         unlockGame();
     });
+
+    $('form').submit( function(e) {
+        e.preventDefault();
+
+        if ($('#fieldAnwser').val() == currentCalcul.resultat) {
+            killComputer();
+        } else {
+            killPlayer();
+        }
+        newCalcul();
+        $('#fieldAnwser').val(' ');
+    });
+}
+
+function killComputer() {
+    alert('Good');
+}
+
+function killPlayer() {
+    alert('Bad');
+}
+
+function newCalcul(){
+    currentCalcul = getCalcul(currentLevel);
+    $('#displayCalcul').html(currentCalcul.operande1 + " " + currentCalcul.operateur + " " + currentCalcul.operande2 + "=");
 }
 
 function refreshLevel(){
@@ -169,8 +194,7 @@ function unlockGame(){
     $('#nextNiv').prop('disabled', true);
     $('#btnStart').prop('disabled', true);
     $('#fieldAnwser').prop('disabled', false);
-    currentCalcul = getCalcul(currentLevel);
-    $('#displayCalcul').html(currentCalcul.operande1 + " " + currentCalcul.operateur + " " + currentCalcul.operande2 + "=");
+    newCalcul();
 }
 
 function getCalcul(niveau) {
