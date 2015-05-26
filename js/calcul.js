@@ -106,9 +106,26 @@
 //    );
 //    ctx.restore();
 //}
-var derp = getCalcul(8);
+var currentCalcul;
+var currentLevel = 1;
 
-$('#displayCalcul').html(derp.operande1 + derp.operateur + derp.operande2 + '=');
+var levels = [
+    "Niveau 1: U+U < 10",
+    "Niveau 2: U+U ≥ 10",
+    "Niveau 3: U-U ≥ 0",
+    "Niveau 4: U+DU = DU avec U+U < 10",
+    "Niveau 5: DU+DU = DU avec U+U < 10",
+    "Niveau 6: DU+DU = DU avec U+U ≥ 10",
+    "Niveau 7: DU-U avec U-U ≥ 0",
+    "Niveau 8: DU-U avec U-U < 0",
+    "Niveau 9: DU-DU avec U-U ≥0",
+    "Niveau 10: DU-DU"
+];
+
+currentCalcul = getCalcul(currentLevel);
+
+$('#textNiveau').html(levels[currentLevel-1]);
+$('#displayCalcul').html(currentCalcul.operande1 + currentCalcul.operateur + currentCalcul.operande2 + '=');
 
 function getCalcul(niveau) {
     var op1;
@@ -117,8 +134,8 @@ function getCalcul(niveau) {
 
     switch(niveau){
         case 1:
-            op1 = randomInt(1, 9);
-            op2 = randomInt(1, 10-op1);
+            op1 = randomInt(0, 9);
+            op2 = randomInt(0, 10-op1);
             res = op1 + op2;
             return {operande1:op1,operande2:op2,resultat:res,operateur:'+'};
         case 2:
@@ -127,13 +144,13 @@ function getCalcul(niveau) {
             op2 = res - op1;
             return {operande1:op1,operande2:op2,resultat:res,operateur:'+'};
         case 3:
-            op1 = randomInt(1, 9);
-            op2 = randomInt(1, op1);
+            op1 = randomInt(0, 9);
+            op2 = randomInt(0, op1);
             res = op1 - op2;
             return {operande1:op1,operande2:op2,resultat:res,operateur:'-'};
         case 4:
             op2 = randomInt(10, 19);
-            op1 = randomInt(1, (10-(op2-10)));
+            op1 = randomInt(0, (10-(op2-10)));
             res = op1 + op2;
             return {operande1:op1,operande2:op2,resultat:res,operateur:'+'};
         case 5:
@@ -148,7 +165,7 @@ function getCalcul(niveau) {
             return {operande1:op1,operande2:op2,resultat:res,operateur:'+'};
         case 7:
             op1 = randomInt(10, 19);
-            op2 = randomInt(1, op1-10);
+            op2 = randomInt(0, op1-10);
             res = op1 - op2;
             return {operande1:op1,operande2:op2,resultat:res,operateur:'-'};
         case 8:
