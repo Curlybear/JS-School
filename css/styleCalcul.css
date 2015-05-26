@@ -1,0 +1,54 @@
+body {
+}
+
+#niveau {
+	width: 300px;
+}
+
+#niveau > * {
+	margin: auto;
+	display: inline-block;
+}
+
+#niveau > p {
+	width: 200px;
+	text-align: center;
+}
+
+#calcul {
+	padding-top: 50px; 
+	width: 250px;
+	margin: auto;
+}
+
+#fieldAnwser {
+	width: 60px;
+}
+
+#calcul > * {
+	margin: auto;
+	display: inline-block;
+}
+
+.content {
+    width: 960px;
+    margin: auto;
+    position: relative;
+}
+
+.content > * {
+    margin: auto;
+    margin-top: 1rem;
+}
+
+button {
+    display: block;
+    padding: 0.2rem 0.7rem;
+}
+
+#canvas {
+	margin: auto;
+    display: block;
+    height: 400px;
+    background-color: #eee;
+}
