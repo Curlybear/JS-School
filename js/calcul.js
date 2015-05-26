@@ -106,9 +106,9 @@
 //    );
 //    ctx.restore();
 //}
-var derp = getCalcul(1);
+var derp = getCalcul(8);
 
-$('#fieldAnwser').html(derp.operande1 + derp.operateur + derp.operande2 + '=');
+$('#displayCalcul').html(derp.operande1 + derp.operateur + derp.operande2 + '=');
 
 function getCalcul(niveau) {
     var op1;
@@ -167,7 +167,7 @@ function getCalcul(niveau) {
             res = op1 - op2;
             return {operande1:op1,operande2:op2,resultat:res,operateur:'-'};
         default:
-            statements_def
+            throw "HUEHUEHUE BETTER SELECT A REAL LEVEL";
             break;
     }
 }
