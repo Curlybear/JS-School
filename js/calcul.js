@@ -124,8 +124,32 @@ var levels = [
 
 currentCalcul = getCalcul(currentLevel);
 
-$('#textNiveau').html(levels[currentLevel-1]);
-$('#displayCalcul').html(currentCalcul.operande1 + currentCalcul.operateur + currentCalcul.operande2 + '=');
+
+// Chargement des handlers d'evenements
+window.addEventListener('load',initEventHandler,false);
+
+// Initialisation des handlers d'evenements
+function initEventHandler() {
+    refreshLevel();
+
+    $('#prevNiv').click( function(e) {
+        if (currentLevel > 1) {
+            currentLevel--;
+            refreshLevel();
+        }
+    });
+
+    $('#nextNiv').click( function(e) {
+        if (currentLevel < 10) {
+            currentLevel++;
+            refreshLevel();
+        }
+    });
+}
+
+function refreshLevel(){
+    $('#textNiveau').html(levels[currentLevel-1]);
+}
 
 function getCalcul(niveau) {
     var op1;

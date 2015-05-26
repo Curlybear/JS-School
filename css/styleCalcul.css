@@ -2,7 +2,7 @@ body {
 }
 
 #niveau {
-	width: 300px;
+	width: 380px;
 }
 
 #niveau > * {
@@ -11,7 +11,7 @@ body {
 }
 
 #niveau > p {
-	width: 200px;
+	width: 280px;
 	text-align: center;
 }
 
