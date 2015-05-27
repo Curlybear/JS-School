@@ -137,9 +137,20 @@ var wrongGuesses;
 var maxTries = 6;
 var currentTry;
 
+/**
+ * Elements
+ */
+var canvas;
+var ctx;
+
 window.addEventListener('load',init,false);
 
 function init() {
+    canvas = document.getElementById('canvas');
+    canvas.width = canvas.clientWidth;
+    canvas.height = canvas.clientHeight;
+    ctx = canvas.getContext('2d');
+
     startGame();
 
     $('form').submit( function(e) {
@@ -152,6 +163,7 @@ function init() {
 }
 
 function startGame () {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     currentTry = 0;
     currentWord = getWord();
 
