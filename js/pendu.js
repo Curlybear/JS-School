@@ -132,17 +132,36 @@ var words = [
 ];
 
 var currentWord;
-var tries = 6;
+var guessingWord;
+var wrongGuesses;
+var maxTries = 6;
+var currentTry;
 
-window.addEventListener('load',initEventHandler,false);
+window.addEventListener('load',init,false);
 
-function initEventHandler() {
+function init() {
     startGame();
+
+    $('form').submit( function(e) {
+        e.preventDefault();
+
+        checkInput();
+        
+        $('#fieldAnwser').val('');
+    });
 }
 
 function startGame () {
+    currentTry = 0;
     currentWord = getWord();
-    $('#mot>p').html(currentWord);    
+
+    guessingWord = new Array(currentWord.length);
+
+    for (var i = 0; i < guessingWord.length; i++){
+        guessingWord[i] = "_ ";
+    }
+
+    $('#mot>p').html(guessingWord);    
 }
 
 function getWord () {
@@ -155,4 +174,68 @@ function random(min, max) {
 
 function randomInt(min, max) {
     return Math.ceil(random(min, max));
+}
+
+function checkInput(){
+    var found = false;
+    var complete = true;
+    var letter = $('#fieldAnwser').val();
+    for (var i = 0; i < currentWord.length; i++){
+        if(currentWord[i] == letter){
+            guessingWord[i] = letter + " ";
+            found = true;
+        }
+    }
+
+    $('#mot>p').html(guessingWord);
+    
+    if(!found){
+        $('#usedLetters').html($('#usedLetters').html() + letter + " ");        
+        loseLife();
+    }
+    
+    for (var i = 0; i < guessingWord.length; i++){
+        if(guessingWord[i] === "_ "){
+            complete = false;
+        }
+    }
+    if(complete){
+        window.alert("You win!");
+    }
+}
+
+function loseLife () {
+    if (currentTry < maxTries) {
+        currentTry++;
+        drawHangman();
+    } else {
+        window.alert("You lose!");
+    }
+}
+
+function drawHangman() {
+
+    switch(currentTry){
+        case 1:
+            // Draw the hangman :L
+            break;
+        case 2:
+            // Draw the hangman :L
+            break;
+        case 3:
+            // Draw the hangman :L
+            break;
+        case 4:
+            // Draw the hangman :L
+            break;
+        case 5:
+            // Draw the hangman :L
+            break;
+        case 6:
+            // Draw the hangman :L
+            break;
+        default:
+            throw "You wOot m8?";
+            break;
+    }
 }

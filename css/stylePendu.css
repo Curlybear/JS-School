@@ -1,6 +1,12 @@
 body {
 }
 
+.content {
+    width: 960px;
+    margin: auto;
+    position: relative;
+}
+
 #jeu {
 	padding-top: 50px; 
 	margin: auto;
