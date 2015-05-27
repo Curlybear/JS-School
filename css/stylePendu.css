@@ -1,0 +1,34 @@
+body {
+}
+
+#jeu {
+	padding-top: 50px; 
+	margin: auto;
+}
+
+#fieldAnwser {
+	width: 60px;
+}
+
+#jeu > * {
+	margin: auto;
+	display: inline-block;
+	vertical-align: middle;
+}
+
+#pendu {
+	vertical-align: middle;
+}
+
+button {
+    display: block;
+    padding: 0.2rem 0.7rem;
+}
+
+#canvas {
+	margin: auto;
+    display: inline-block;
+    height: 600px;
+    width: 400px;
+    background-color: #eee;
+}
