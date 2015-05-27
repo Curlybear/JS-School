@@ -34,7 +34,7 @@ button {
 #canvas {
 	margin: auto;
     display: inline-block;
-    height: 600px;
+    height: 400px;
     width: 400px;
     background-color: #eee;
 }

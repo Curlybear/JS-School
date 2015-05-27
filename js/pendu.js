@@ -167,13 +167,26 @@ function startGame () {
     currentTry = 0;
     currentWord = getWord();
 
+    wrongGuesses = " ";
+    $('#usedLetters').html(wrongGuesses);
+
     guessingWord = new Array(currentWord.length);
 
     for (var i = 0; i < guessingWord.length; i++){
         guessingWord[i] = "_ ";
     }
 
-    $('#mot>p').html(guessingWord);    
+    $('#mot>p').html(guessingWord); 
+
+    ctx.beginPath();
+    ctx.moveTo(20, 380);
+    ctx.lineTo(150, 380);
+    ctx.moveTo(85, 380);
+    ctx.lineTo(85, 40);
+    ctx.lineTo(250, 40);
+    ctx.lineTo(250, 80);
+    ctx.stroke();
+   
 }
 
 function getWord () {
@@ -202,7 +215,8 @@ function checkInput(){
     $('#mot>p').html(guessingWord);
     
     if(!found){
-        $('#usedLetters').html($('#usedLetters').html() + letter + " ");        
+        wrongGuesses += letter + " ";
+        $('#usedLetters').html(wrongGuesses);        
         loseLife();
     }
     
@@ -213,41 +227,49 @@ function checkInput(){
     }
     if(complete){
         window.alert("You win!");
+        startGame();
     }
 }
 
 function loseLife () {
-    if (currentTry < maxTries) {
-        currentTry++;
-        drawHangman();
-    } else {
+    currentTry++;
+    drawHangman();
+
+    if (currentTry == maxTries) {
         window.alert("You lose!");
+        startGame();
     }
 }
 
 function drawHangman() {
-
+    ctx.beginPath();
     switch(currentTry){
         case 1:
-            // Draw the hangman :L
+            ctx.arc(250,110,30,0,2*Math.PI);
             break;
         case 2:
-            // Draw the hangman :L
+            ctx.moveTo(250, 140);
+            ctx.lineTo(250, 230);
             break;
         case 3:
-            // Draw the hangman :L
+            ctx.moveTo(250, 230);
+            ctx.lineTo(220, 320);
             break;
         case 4:
-            // Draw the hangman :L
+            ctx.moveTo(250, 230);
+            ctx.lineTo(280, 320);
             break;
         case 5:
-            // Draw the hangman :L
+            ctx.moveTo(250, 150);
+            ctx.lineTo(280, 220);
             break;
         case 6:
-            // Draw the hangman :L
+            ctx.moveTo(250, 150);
+            ctx.lineTo(220, 220);
             break;
         default:
             throw "You wOot m8?";
             break;
     }
+    ctx.stroke();
 }
