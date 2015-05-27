@@ -129,3 +129,21 @@ article{
 #namepanel{
   text-align: center;
 }
+
+#jetonDisplay{
+  text-align: center;
+}
+
+ul {
+  margin: auto;
+}
+
+li {
+  list-style-type: none;
+  padding: 0px;
+  margin: auto;  
+}
+
+li > * {
+  width: 80%;
+}

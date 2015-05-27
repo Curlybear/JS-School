@@ -227,6 +227,7 @@ function checkInput(){
     }
     if(complete){
         window.alert("You win!");
+        parent.postMessage({type:"pendu", msg:"win"},"*");
         startGame();
     }
 }
@@ -237,6 +238,7 @@ function loseLife () {
 
     if (currentTry == maxTries) {
         window.alert("You lose!");
+        parent.postMessage({type:"pendu", msg:"loss"},"*");
         startGame();
     }
 }
