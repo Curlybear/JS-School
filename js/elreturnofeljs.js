@@ -10,4 +10,8 @@ function initEventHandler() {
         $('aside').addClass('boy'); 
     }
     $('#namepanel').html(user.nom);
+
+    $('#derptest').click(function(event) {
+    	$("#frame").attr("src", "pendu.html");
+    });
 }

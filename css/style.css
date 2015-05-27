@@ -85,22 +85,14 @@ form{
   text-decoration: none;
 }
 
-#canevas{
+.dframe{
   vertical-align: top;
   display: inherit;
   float:left;
   height: 100%;
   width: 100%;
   position: relative;
-}
-
-canvas{
-  display: block;
-  height: 800px;
-  width: 1200px;
-  margin: auto;
-  position: absolute;
-  top: calc(50% - 400px);
+  border: 0;
 }
 
 section{
