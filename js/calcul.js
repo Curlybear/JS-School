@@ -128,7 +128,7 @@ function killComputer() {
         remainingComputer--;
         drawSoldiers();
         alert('Game over you won.');
-        parent.postMessage({type:"calcul", msg:"win"+currentLevel},"*");
+        parent.postMessage({type:"addToken", msg:currentLevel},"*");
         lockGame();
     }
 }
@@ -140,7 +140,7 @@ function killPlayer() {
         remainingPlayer--;
         drawSoldiers();
         alert('Game over you lost.');
-        parent.postMessage({type:"calcul", msg:"loss"},"*");
+        parent.postMessage({type:"addToken", msg:"0"},"*");
         lockGame();
     }
 }
