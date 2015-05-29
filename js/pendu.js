@@ -227,7 +227,7 @@ function checkInput(){
     }
     if(complete){
         window.alert("You win!");
-        parent.postMessage({type:"addToken", msg:"5"},"*");
+        parent.postMessage({type:"addToken", msg:5},"*");
         startGame();
     }
 }
