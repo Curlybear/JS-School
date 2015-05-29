@@ -32,7 +32,15 @@ function init() {
     WIDTH = $("#canvas").width();
     HEIGHT = $("#canvas").height();
 
-    reset();
+    resetBall();
+
+    paddlex = WIDTH / 2;
+    paddleh = 10;
+    paddlew = 75;
+
+    computerPaddlex = WIDTH / 2;
+    computerPaddleh = 10;
+    computerPaddlew = 75;
 
     canvasMinX = $("#canvas").offset().left;
     canvasMaxX = canvasMinX + WIDTH;
@@ -47,7 +55,7 @@ function init() {
                 ballOutComputer = false;
                 point++;
             }
-            reset();
+            resetBall();
         }
 
         if (point == 10 || computerPoint == 10) {
@@ -63,20 +71,12 @@ function init() {
     });
 }
 
-function reset() {
+function resetBall() {
     x = WIDTH/2;
     y = HEIGHT/2;
 
     dx = 2;
     dy = 4;
-
-    paddlex = WIDTH / 2;
-    paddleh = 10;
-    paddlew = 75;
-
-    computerPaddlex = WIDTH / 2;
-    computerPaddleh = 10;
-    computerPaddlew = 75;
 }
 
 function circle(x, y, r) {
