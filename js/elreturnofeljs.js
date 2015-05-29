@@ -24,7 +24,14 @@ function initEventHandler() {
     });
 
     $('#btnPong').click(function(event) {
-        $("#frame").attr("src", "pong.html");
+        if (user.jetons >= 5) {
+            user.jetons -= 5;
+            localStorage.setItem(user.nom, JSON.stringify(user));
+            $("#frame").attr("src", "pong.html");
+            updateGui();
+        } else {
+            alert("Pas assez de jetons pour jouer à pong!");
+        }   
     });
 
     window.addEventListener("message", receiveMessage, false);

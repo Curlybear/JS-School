@@ -1,10 +1,11 @@
 var x;
 var y;
+var r = 5;
 var dx;
 var dy;
-var WIDTH;
-var HEIGHT;
-var ctx;
+var ctx = $('#canvas')[0].getContext("2d");
+var WIDTH = $("#canvas").width();
+var HEIGHT = $("#canvas").height();
 
 var paddlex;
 var paddleh;
@@ -26,21 +27,23 @@ var ballOutComputer = false;
 var point = 0;
 var computerPoint = 0;
 
+var started = false;
+
 
 function init() {
-    ctx = $('#canvas')[0].getContext("2d");
     WIDTH = $("#canvas").width();
     HEIGHT = $("#canvas").height();
+    started = true;
 
     resetBall();
 
-    paddlex = WIDTH / 2;
     paddleh = 10;
-    paddlew = 75;
+    paddlew = 100;
+    paddlex = WIDTH / 2 - paddlew/2;
 
-    computerPaddlex = WIDTH / 2;
     computerPaddleh = 10;
-    computerPaddlew = 75;
+    computerPaddlew = 100;
+    computerPaddlex = WIDTH / 2 - computerPaddlew/2;
 
     canvasMinX = $("#canvas").offset().left;
     canvasMaxX = canvasMinX + WIDTH;
@@ -127,19 +130,29 @@ function onMouseMove(evt) {
     }
 }
 
+function onMouseDown(evt) {
+    if(!started)
+        init();
+}
+
 $(document).keydown(onKeyDown);
 $(document).keyup(onKeyUp);
 $(document).mousemove(onMouseMove);
+$(document).mousedown(onMouseDown);
 
 function draw() {
     clear();
-    circle(x, y, 10);
+    circle(x, y, r*2);
 
     // Draw scores
     text(point, 40, 5, HEIGHT/2 + 30);
     text(computerPoint, 40, 5, HEIGHT/2 - 30);
 
     // Update computer placement
+    if (y < HEIGHT) {   
+        if (x > computerPaddlex+computerPaddlew-computerPaddlew/10) computerPaddlex +=5;
+        else if (x < computerPaddlex+computerPaddlew/10) computerPaddlex -= 5;
+    }
     rect(computerPaddlex, 0, computerPaddlew, computerPaddleh);
 
     //move the paddle if left or right is currently pressed
@@ -150,16 +163,16 @@ function draw() {
     if (x + dx > WIDTH || x + dx < 0)
         dx = -dx;
 
-    if (y + dy < 0) {
-        if (x > computerPaddlex && x < computerPaddlex + computerPaddlew) {
-            dx = 8 * ((x - (computerPaddlex + computerPaddlew / 2)) / computerPaddlew);
+    if (y + dy - r < computerPaddleh) {
+        if (x + r > computerPaddlex && x -r < computerPaddlex + computerPaddlew) {
+            dx = 12 * ((x - (computerPaddlex + computerPaddlew / 2)) / computerPaddlew);
             dy = -dy;
         } else {
             ballOutComputer = true;
         }
-    } else if (y + dy > HEIGHT) {
-        if (x > paddlex && x < paddlex + paddlew) {
-            dx = 8 * ((x - (paddlex + paddlew / 2)) / paddlew);
+    } else if (y + dy + r > HEIGHT - paddleh) {
+        if (x + r> paddlex && x - r < paddlex + paddlew) {
+            dx = 12 * ((x - (paddlex + paddlew / 2)) / paddlew);
             dy = -dy;
         } else {
             //game over, so stop the animation
@@ -171,4 +184,4 @@ function draw() {
     y += dy;
 }
 
-init();
+text("Click to start", 30, WIDTH/2, HEIGHT/2, true);
