@@ -34,6 +34,17 @@ function initEventHandler() {
         }   
     });
 
+    $('#btnBrique').click(function(event) {
+        if (user.jetons >= 5) {
+            user.jetons -= 5;
+            localStorage.setItem(user.nom, JSON.stringify(user));
+            $("#frame").attr("src", "cassebrique.html");
+            updateGui();
+        } else {
+            alert("Pas assez de jetons pour jouer au casse brique!");
+        }   
+    });
+
     window.addEventListener("message", receiveMessage, false);
 }
 

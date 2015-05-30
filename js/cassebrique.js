@@ -11,10 +11,6 @@ var paddlex;
 var paddleh;
 var paddlew;
 
-var computerPaddlex;
-var computerPaddleh;
-var computerPaddlew;
-
 var rightDown = false;
 var leftDown = false;
 
@@ -22,74 +18,89 @@ var canvasMinX;
 var canvasMaxX;
 
 var ballOut = false;
-var ballOutComputer = false;
 
-var point = 0;
-var computerPoint = 0;
+var bricks;
+var NROWS;
+var NCOLS;
+var BRICKWIDTH;
+var BRICKHEIGHT;
+var PADDING;
 
+var lifes = 3;
+
+var keepGoing = false;
 var started = false;
-
 
 function init() {
     started = true;
 
+    ctx = $('#canvas')[0].getContext("2d");
+    WIDTH = $("#canvas").width();
+    HEIGHT = $("#canvas").height();
+
     resetBall();
 
+    paddlex = WIDTH / 2;
     paddleh = 10;
-    paddlew = 100;
-    paddlex = WIDTH / 2 - paddlew/2;
+    paddlew = 75;
 
-    computerPaddleh = 10;
-    computerPaddlew = 100;
-    computerPaddlex = WIDTH / 2 - computerPaddlew/2;
+    NROWS = 5;
+    NCOLS = 10;
+    BRICKWIDTH = (WIDTH/NCOLS) - 1;
+    BRICKHEIGHT = 15;
+    PADDING = 1;
+
+    bricks = new Array(NROWS);
+    for (i=0; i < NROWS; i++) {
+        bricks[i] = new Array(NCOLS);
+        for (j=0; j < NCOLS; j++) {
+            bricks[i][j] = 1;
+        }
+    }
 
     canvasMinX = $("#canvas").offset().left;
     canvasMaxX = canvasMinX + WIDTH;
 
     requestAnimationFrame(function animation() {
         draw();
-        if (ballOut || ballOutComputer){
-            if (ballOut) {
-                ballOut = false;
-                computerPoint++;
-            } else {
-                ballOutComputer = false;
-                point++;
-            }
+        if (ballOut){
+            lifes--;
             resetBall();
+            ballOut = false;
         }
 
-        if (point == 10 || computerPoint == 10) {
-            clear();
-            if (point == 10) {
-                text("You win!", 30, WIDTH/2, HEIGHT/2, true);
-            } else {
-                text("You lose.", 30, WIDTH/2, HEIGHT/2, true);
+        keepGoing = false;
+
+        for (i=0; i < NROWS; i++) {
+            for (j=0; j < NCOLS; j++) {
+                if (bricks[i][j] == 1) {
+                    keepGoing = true;
+                }
             }
+        }
+
+        if (lifes == 0 || keepGoing == false) {
+            clear();
+            if(keepGoing == false)
+                text("You win!", 30, WIDTH/2, HEIGHT/2, true);
+            else
+                text("You lose.", 30, WIDTH/2, HEIGHT/2, true);
         }
         else
             requestAnimationFrame(animation);
     });
 }
-
-function resetBall() {
-    x = WIDTH/2;
-    y = HEIGHT/2;
-
-    dx = 2;
-    dy = 4;
-}
-
-function circle(x, y, r) {
+ 
+function circle(x,y,r) {
     ctx.beginPath();
-    ctx.arc(x, y, r, 0, Math.PI * 2, true);
+    ctx.arc(x, y, r, 0, Math.PI*2, true);
     ctx.closePath();
     ctx.fill();
 }
-
-function rect(x, y, w, h) {
+ 
+function rect(x,y,w,h) {
     ctx.beginPath();
-    ctx.rect(x, y, w, h);
+    ctx.rect(x,y,w,h);
     ctx.closePath();
     ctx.fill();
 }
@@ -104,12 +115,18 @@ function text(text, size, x, y, center) {
     ctx.textAlign = "left";
 }
 
+function resetBall() {
+    x = WIDTH/2;
+    y = HEIGHT/2;
+
+    dx = 2;
+    dy = 4;
+}
+ 
 function clear() {
     ctx.clearRect(0, 0, WIDTH, HEIGHT);
 }
-
-//END LIBRARY CODE
-
+ 
 //set rightDown or leftDown if the right or left keys are down
 function onKeyDown(evt) {
     if (evt.keyCode == 39) rightDown = true;
@@ -124,7 +141,7 @@ function onKeyUp(evt) {
 
 function onMouseMove(evt) {
     if (evt.pageX > canvasMinX && evt.pageX < canvasMaxX) {
-        paddlex = evt.pageX - canvasMinX - paddlew / 2;
+        paddlex = evt.pageX - canvasMinX - paddlew/2;
     }
 }
 
@@ -142,33 +159,39 @@ function draw() {
     clear();
     circle(x, y, r*2);
 
-    // Draw scores
-    text(point, 40, 5, HEIGHT/2 + 30);
-    text(computerPoint, 40, 5, HEIGHT/2 - 30);
-
-    // Update computer placement
-    if (y < HEIGHT) {   
-        if (x > computerPaddlex+computerPaddlew-computerPaddlew/10) computerPaddlex +=5;
-        else if (x < computerPaddlex+computerPaddlew/10) computerPaddlex -= 5;
-    }
-    rect(computerPaddlex, 0, computerPaddlew, computerPaddleh);
-
     //move the paddle if left or right is currently pressed
     if (rightDown) paddlex += 5;
     else if (leftDown) paddlex -= 5;
-    rect(paddlex, HEIGHT - paddleh, paddlew, paddleh);
+    rect(paddlex, HEIGHT-paddleh, paddlew, paddleh);
+
+    //draw bricks
+    for (i=0; i < NROWS; i++) {
+        for (j=0; j < NCOLS; j++) {
+            if (bricks[i][j] == 1) {
+                rect((j * (BRICKWIDTH + PADDING)) + PADDING,
+                (i * (BRICKHEIGHT + PADDING)) + PADDING,
+                BRICKWIDTH, BRICKHEIGHT);
+            }
+        }
+    }
+
+    //have we hit a brick?
+    rowheight = BRICKHEIGHT + PADDING;
+    colwidth = BRICKWIDTH + PADDING;
+    row = Math.floor((y - r) /rowheight);
+    col = Math.floor(x/colwidth);
+    //if so, reverse the ball and mark the brick as broken
+    if (y - r < NROWS * rowheight && row >= 0 && col >= 0 && bricks[row][col] == 1) {
+        dy = -dy;
+        bricks[row][col] = 0;
+    }
 
     if (x + dx > WIDTH || x + dx < 0)
-        dx = -dx;
+    dx = -dx;
 
-    if (y + dy - r < computerPaddleh) {
-        if (x + r > computerPaddlex && x -r < computerPaddlex + computerPaddlew) {
-            dx = 12 * ((x - (computerPaddlex + computerPaddlew / 2)) / computerPaddlew);
-            dy = -dy;
-        } else {
-            ballOutComputer = true;
-        }
-    } else if (y + dy + r > HEIGHT - paddleh) {
+    if (y + dy < 0)
+    dy = -dy;
+    else if (y + dy + r > HEIGHT - paddleh) {
         if (x + r> paddlex && x - r < paddlex + paddlew) {
             dx = 12 * ((x - (paddlex + paddlew / 2)) / paddlew);
             dy = -dy;
