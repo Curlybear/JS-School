@@ -159,6 +159,12 @@ function draw() {
     clear();
     circle(x, y, r*2);
 
+    // display lifes
+
+    for (var i = 0; i < lifes; i++) {
+        circle(2 + r*2, HEIGHT - r*2 -2 - (r*4 +2)*i, r*2);
+    }
+
     //move the paddle if left or right is currently pressed
     if (rightDown) paddlex += 5;
     else if (leftDown) paddlex -= 5;
