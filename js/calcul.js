@@ -184,7 +184,7 @@ function getCalcul(niveau) {
     switch(niveau){
         case 1:
             op1 = randomInt(0, 9);
-            op2 = randomInt(0, 10-op1);
+            op2 = randomInt(0, 9-op1);
             res = op1 + op2;
             return {operande1:op1,operande2:op2,resultat:res,operateur:'+'};
         case 2:
