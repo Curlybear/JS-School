@@ -7,10 +7,17 @@ window.addEventListener('load',initEventHandler,false);
 function initEventHandler() {
     user = JSON.parse(localStorage.getItem(sessionStorage.connectedUser));
     if (user.sexe == 'female') {
-        $('aside').addClass('girl'); 
+        $('aside').addClass('girl');
     } else{
-        $('aside').addClass('boy'); 
+        $('aside').addClass('boy');
     }
+
+    if (user.avatar == "1.jpg") {
+        $("#avatar>img").attr("src", "img/1.jpg");
+    } else {
+        $("#avatar>img").attr("src", "img/2.jpg");
+    }
+
     $('#namepanel').html(user.nom);
 
     updateGui();
@@ -31,7 +38,7 @@ function initEventHandler() {
             updateGui();
         } else {
             alert("Pas assez de jetons pour jouer à pong!");
-        }   
+        }
     });
 
     $('#btnBrique').click(function(event) {
@@ -42,7 +49,7 @@ function initEventHandler() {
             updateGui();
         } else {
             alert("Pas assez de jetons pour jouer au casse brique!");
-        }   
+        }
     });
 
     window.addEventListener("message", receiveMessage, false);
