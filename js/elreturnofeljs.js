@@ -12,11 +12,7 @@ function initEventHandler() {
         $('aside').addClass('boy');
     }
 
-    if (user.avatar == "1.jpg") {
-        $("#avatar>img").attr("src", "img/1.jpg");
-    } else {
-        $("#avatar>img").attr("src", "img/2.jpg");
-    }
+    $("#avatar>img").attr("src", "img/"+user.avatar);
 
     $('#namepanel').html(user.nom);
 
